@@ -122,6 +122,7 @@ class AuthGroupPermissions(models.Model):
         unique_together = (('group', 'permission'),)
 
 
+
 class AuthPermission(models.Model):
     name = models.CharField(max_length=255)
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
@@ -285,7 +286,7 @@ class ProcessorAdFoundWatchlog(models.Model):
     ad_video = models.ForeignKey('ProcessorVideos', models.DO_NOTHING)
     batch = models.ForeignKey('ProcessorBatch', models.DO_NOTHING)
     bot = models.ForeignKey('ProcessorBots', models.DO_NOTHING)
-    video_watched = models.ForeignKey('ProcessorVideos', models.DO_NOTHING)
+    #video_watched = models.ForeignKey('ProcessorVideos', models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -363,3 +364,7 @@ class ProcessorVideos(models.Model):
     class Meta:
         managed = False
         db_table = 'processor_videos'
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.title
