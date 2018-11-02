@@ -1,2 +1,2 @@
-/catalog/migrations/*
-/catalog/__pycache__/*
+migrations/*
+__pycache__/*
