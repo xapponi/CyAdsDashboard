@@ -39,6 +39,10 @@ class BookInstanceAdmin(admin.ModelAdmin):
         }),
     )
 
+@admin.register(GroupVideo)
+class GroupVideoAdmin(admin.ModelAdmin):
+    pass
+
 @admin.register(CustomVideoGroup)
 class CustomVideoGroupAdmin(admin.ModelAdmin):
     pass

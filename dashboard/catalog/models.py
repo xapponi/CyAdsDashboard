@@ -138,7 +138,6 @@ class ProcessorVideo(models.Model):
     watched_as_video = models.IntegerField()
     category = models.ForeignKey(ProcessorCategories, models.DO_NOTHING)
     channel = models.ForeignKey(ProcessorChannels, models.DO_NOTHING)
-    group = models.ForeignKey('CustomVideoGroup', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         managed = False
@@ -158,6 +157,20 @@ class CustomVideoGroup(models.Model):
     #videos = models.ManyToManyField(ProcessorVideo, help_text='Select videos to be added to this custom group')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular author instance."""
+        return reverse('processorvideo-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.title
+
+class GroupVideo(models.Model):
+    title = models.CharField(max_length=200)
+    group = models.ForeignKey('CustomVideoGroup', on_delete=models.SET_NULL, null=True)
+    video = models.ForeignKey('ProcessorVideo', on_delete=models.SET_NULL, null=True)
+
 
     def get_absolute_url(self):
         """Returns the url to access a particular author instance."""
