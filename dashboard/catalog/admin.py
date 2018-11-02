@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from catalog.models import Author, Genre, Book, BookInstance, Language, ProcessorVideos
+from catalog.models import Author, Genre, Book, BookInstance, Language, ProcessorVideo
 
 admin.site.register(Language)
 #admin.site.register(Book)
@@ -39,10 +39,9 @@ class BookInstanceAdmin(admin.ModelAdmin):
         }),
     )
 
-@admin.register(ProcessorVideos)
-class ProcessorVideosAdmin(admin.ModelAdmin):
+@admin.register(ProcessorVideo)
+class ProcessorVideoAdmin(admin.ModelAdmin):
     list_display = (
-        'url',
         'title',
         'description',
         'keywords',
@@ -51,3 +50,4 @@ class ProcessorVideosAdmin(admin.ModelAdmin):
         'category',
         'channel',
     )
+    list_filter = (['category'])
