@@ -39,9 +39,21 @@ from catalog.models import *
 #         }),
 #     )
 
-@admin.register(GroupVideo)
-class GroupVideoAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(GroupVideo)
+# class GroupVideoAdmin(admin.ModelAdmin):
+#     pass
+
+def add_to_group(modeladmin, request, queryset):
+    for video in queryset:
+        pass
+add_to_group.short_description = 'Add selected videos to a custom video group'
+
+
+
+
+
+class ProcessorVideoInline(admin.TabularInline):
+    model = ProcessorVideo
 
 @admin.register(CustomVideoGroup)
 class CustomVideoGroupAdmin(admin.ModelAdmin):
@@ -59,3 +71,4 @@ class ProcessorVideoAdmin(admin.ModelAdmin):
         'channel',
     )
     list_filter = (['category'])
+    actions = [add_to_group, ]

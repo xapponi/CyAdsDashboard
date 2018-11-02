@@ -154,7 +154,7 @@ class ProcessorVideo(models.Model):
 class CustomVideoGroup(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, help_text='Enter a brief description of the custom group')
-    #videos = models.ManyToManyField(ProcessorVideo, help_text='Select videos to be added to this custom group')
+    videos = models.ManyToManyField(ProcessorVideo, help_text='Select videos to be added to this custom group')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -166,16 +166,16 @@ class CustomVideoGroup(models.Model):
         """String for representing the Model object."""
         return self.title
 
-class GroupVideo(models.Model):
-    title = models.CharField(max_length=200)
-    group = models.ForeignKey('CustomVideoGroup', on_delete=models.SET_NULL, null=True)
-    video = models.ForeignKey('ProcessorVideo', on_delete=models.SET_NULL, null=True)
-
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular author instance."""
-        return reverse('processorvideo-detail', args=[str(self.id)])
-
-    def __str__(self):
-        """String for representing the Model object."""
-        return self.title
+# class GroupVideo(models.Model):
+#     title = models.CharField(max_length=200)
+#     group = models.ForeignKey('CustomVideoGroup', on_delete=models.SET_NULL, null=True)
+#     video = models.ForeignKey('ProcessorVideo', on_delete=models.SET_NULL, null=True)
+#
+#
+#     def get_absolute_url(self):
+#         """Returns the url to access a particular author instance."""
+#         return reverse('processorvideo-detail', args=[str(self.id)])
+#
+#     def __str__(self):
+#         """String for representing the Model object."""
+#         return self.title
