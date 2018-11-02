@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from catalog.models import Author, Genre, Book, BookInstance, Language, ProcessorVideo
+from catalog.models import *
 
 admin.site.register(Language)
 #admin.site.register(Book)
@@ -38,6 +38,10 @@ class BookInstanceAdmin(admin.ModelAdmin):
             'fields': ('status', 'due_back')
         }),
     )
+
+@admin.register(CustomVideoGroup)
+class CustomVideoGroupAdmin(admin.ModelAdmin):
+    pass
 
 @admin.register(ProcessorVideo)
 class ProcessorVideoAdmin(admin.ModelAdmin):

@@ -150,3 +150,18 @@ class ProcessorVideo(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return self.title
+
+class CustomVideoGroup(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(max_length=1000, help_text='Enter a brief description of the custom group')
+    videos = models.ManyToManyField(ProcessorVideo, help_text='Select videos to be added to this custom group')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular author instance."""
+        return reverse('processorvideo-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.title
