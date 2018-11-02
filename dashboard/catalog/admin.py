@@ -3,6 +3,8 @@ from django.contrib import admin
 # Register your models here.
 from catalog.models import *
 
+from django.shortcuts import render
+
 # admin.site.register(Language)
 # #admin.site.register(Book)
 # # admin.site.register(Author)
@@ -43,10 +45,6 @@ from catalog.models import *
 # class GroupVideoAdmin(admin.ModelAdmin):
 #     pass
 
-def add_to_group(modeladmin, request, queryset):
-    for video in queryset:
-        pass
-add_to_group.short_description = 'Add selected videos to a custom video group'
 
 
 
@@ -71,4 +69,10 @@ class ProcessorVideoAdmin(admin.ModelAdmin):
         'channel',
     )
     list_filter = (['category'])
-    actions = [add_to_group, ]
+    actions = ['add_to_group']
+
+    def add_to_group(self, request, queryset):
+        return render(request,
+                      'addtogroup_intermediate.html',
+                      context={})
+    add_to_group.short_description = 'Add selected videos to a custom video group'
