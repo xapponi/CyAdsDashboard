@@ -138,6 +138,7 @@ class ProcessorVideo(models.Model):
     watched_as_video = models.IntegerField()
     category = models.ForeignKey(ProcessorCategories, models.DO_NOTHING)
     channel = models.ForeignKey(ProcessorChannels, models.DO_NOTHING)
+    group = models.ForeignKey('CustomVideoGroup', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         managed = False
@@ -154,7 +155,7 @@ class ProcessorVideo(models.Model):
 class CustomVideoGroup(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, help_text='Enter a brief description of the custom group')
-    videos = models.ManyToManyField(ProcessorVideo, help_text='Select videos to be added to this custom group')
+    #videos = models.ManyToManyField(ProcessorVideo, help_text='Select videos to be added to this custom group')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
