@@ -3,17 +3,51 @@
 <script>
 {% block jquery %}
 var endpoint = '/api/videos/categories/'
+var defaultData = []
+var labels = []
 $.ajax({
   method: "GET",
   url: endpoint,
   success: function(data){
     console.log(data)
+    labels = data.category_names
+    defaultData = data.category_counts
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# of Unique Videos in Each Category',
+                data: defaultData,
+            }]
+        },
+
+        options: {
+            scaleShowValues: true,
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }],
+              xAxes: [{
+                ticks: {
+                  autoSkip: false
+                }
+              }]
+            }
+          }
+
+    });
   },
   error: function(error_data){
     console.log("error")
     console.log(error_data)
   }
 })
+
+
 
 {% endblock %}
 </script>
@@ -22,7 +56,9 @@ $.ajax({
 
 <div class='row'>
     <div class='col-sm-12'>
-        <h1>Hello World</h1>
+        <h1>HelloWorld</h1>
+        <canvas id="myChart" width="400" height="400"></canvas>
+
     </div>
 </div>
 

@@ -28,11 +28,15 @@ class CategoryData(APIView):
         categories = categories.to_dict('records')
 
         category_counts = []
+        category_names = []
         for cat in categories:
             if 'external' not in cat['name']:
-                category_counts.append({'category_name': cat['name'],
-                                        'category_count': ProcessorVideo.objects.filter(category_id=cat['id']).count()})
-
+                category_names.append(cat['name'])
+                category_counts.append(ProcessorVideo.objects.filter(category_id=cat['id']).count())
+        data = {
+            'category_counts': category_counts,
+            'category_names': category_names,
+        }
         # video_data = {
         #     'numVideos': ProcessorVideo.objects.all().count(),
         #     'numCategories': ProcessorCategories.objects.all().count(),
@@ -41,4 +45,4 @@ class CategoryData(APIView):
         #
         #     }
         #videos = serializers.serialize('json', ProcessorVideo.objects.all(), fields=('title', 'category'))
-        return Response({'categories_counts': category_counts})
+        return Response(data)
