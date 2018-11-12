@@ -15,6 +15,9 @@ def index(request):
 
     return render(request, 'index.html', context=context)
 
+def chart(request):
+    return render(request, 'charts.html')
+
 class CategoryData(APIView):
     authentication_classes = []
     permission_classes = []
@@ -38,4 +41,4 @@ class CategoryData(APIView):
         #
         #     }
         #videos = serializers.serialize('json', ProcessorVideo.objects.all(), fields=('title', 'category'))
-        return Response(category_counts)
+        return Response({'categories_counts': category_counts})
