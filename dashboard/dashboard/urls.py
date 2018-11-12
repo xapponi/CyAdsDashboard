@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
+
+from catalog.views import CategoryData
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^api/videos/categories/$', CategoryData.as_view(), name='api-video-category-data'),
 ]
 
 # Use include() to add paths from the catalog application
