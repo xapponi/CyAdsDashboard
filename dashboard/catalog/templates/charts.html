@@ -11,16 +11,31 @@ $.ajax({
   success: function(data){
     console.log(data)
     labels = data.category_names
-    defaultData = data.category_counts
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,
-            datasets: [{
-                label: '# of Unique Videos in Each Category',
-                data: defaultData,
-            }]
+            datasets: [
+            {
+              label: 'Total # of Unique Videos',
+              backgroundColor: 'rgb(255, 99, 132)',
+              borderColor: 'rgb(255, 99, 132)',
+              data: data.unique_videos,
+            },
+            {
+              label: 'Watched As Ad',
+              backgroundColor: 'rgb(45, 126, 201)',
+              borderColor: 'rgb(45, 126, 201)',
+              data: data.watched_as_ad,
+            },
+            {
+              label: 'Watched As Video',
+              backgroundColor: 'rgb(45,201,139)',
+              borderColor: 'rgb(45,201,139)',
+              data: data.watched_as_video,
+            }
+            ]
         },
 
         options: {
@@ -40,12 +55,40 @@ $.ajax({
           }
 
     });
+
+    window.onload = () => {
+      const ctx = document.getElementById("canvas").getContext("2d");
+      var y0 = [];
+      var y1 = [];
+      for (var i = 0; i < 50; i ++) {
+        y0[i] = Math.random();
+        y1[i] = Math.random() + 1;
+      }
+
+      var trace1 = {
+        y: y0,
+        type: 'box'
+      };
+
+      var trace2 = {
+        y: y1,
+        type: 'box'
+      };
+
+      var data = [trace1, trace2];
+
+      Plotly.newPlot('myDiv', data);
+
+    };
   },
   error: function(error_data){
     console.log("error")
     console.log(error_data)
   }
-})
+});
+console.log("I am Here")
+
+
 
 
 
@@ -55,11 +98,22 @@ $.ajax({
 {% block content %}
 
 <div class='row'>
-    <div class='col-sm-12'>
-        <h1>HelloWorld</h1>
+    <div class='col-sm-1'></div>
+    <div class='col-sm-10 text-center'>
+        <h1>Number Of Unique Videos Per Category</h1>
         <canvas id="myChart" width="400" height="400"></canvas>
 
     </div>
+    <div class='col-sm-1'></div>
+</div>
+<div class='row'>
+    <div class='col-sm-1'></div>
+    <div class='col-sm-10 text-center'>
+        <h1>Box Plot Test</h1>
+        <canvas id="canvas" width="400" height="400"></canvas>
+
+    </div>
+    <div class='col-sm-1'></div>
 </div>
 
 {% endblock content %}
