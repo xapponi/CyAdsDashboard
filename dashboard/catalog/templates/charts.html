@@ -23,7 +23,7 @@
 <div class='row'>
     <div class='col-sm-2 text-center'></div>
     <div class='col-sm-8 text-center'>
-      <h1>Ratio of Unique to total</h1>
+      <h1>Ratio of Total to Unique</h1>
       <canvas id="ratio"></canvas>
     </div>
     <div class='col-sm-2 text-center'></div>
@@ -39,191 +39,152 @@
     <div class='col-sm-1'></div>
 </div>
 
+<div class="row">
+    <div id="container" style="width: 500px; height: 400px;">
+
+    </div>
+</div>
+
 {% endblock content %}
-
 <script>
-{% block jquery %}
-var endpoint = '/api/videos/categories/'
-var defaultData = []
-var labels = []
-$.ajax({
-  method: "GET",
-  url: endpoint,
-  success: function(data){
-    console.log(data)
-    labels = data.category_names
-    var ctx1 = document.getElementById("unique").getContext('2d');
-    var myChart1 = new Chart(ctx1, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-            // {
-            //   label: 'Total # of Unique Videos',
-            //   backgroundColor: 'rgb(255, 99, 132)',
-            //   borderColor: 'rgb(255, 99, 132)',
-            //   data: data.unique_videos,
-            // },
-            {
-              label: 'Unique',
-              backgroundColor: 'rgb(45, 126, 201)',
-              borderColor: 'rgb(45, 126, 201)',
-              data: data.watched_as_ad,
-            },
-            // {
-            //   label: 'Watched As Video',
-            //   backgroundColor: 'rgb(45,201,139)',
-            //   borderColor: 'rgb(45,201,139)',
-            //   data: data.watched_as_video,
-            // }
-            ]
-        },
+  anychart.onDocumentLoad(function () {
+    // create an instance of a pie chart
+    var chart = anychart.pie();
+    // set the data
+    chart.data([
+      ["Chocolate", 5],
+      ["Rhubarb compote", 2],
+      ["Crêpe Suzette", 2],
+      ["American blueberry", 2],
+      ["Buttermilk", 1]
+    ]);
+    // set chart title
+    chart.title("Top 5 pancake fillings");
+    // set the container element
+    chart.container("container");
+    // initiate chart display
+    chart.draw();
+  });
+</script>
+<script>
+  {% block jquery %}
+  var endpoint = '/api/videos/categories/'
+  var defaultData = []
+  var labels = []
+  $.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+      console.log(data)
+      labels = data.category_names
+      var ctx1 = document.getElementById("unique").getContext('2d');
+      var myChart1 = new Chart(ctx1, {
+          type: 'bar',
+          data: {
+              labels: labels,
+              datasets: [
 
-        options: {
-            scaleShowValues: true,
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                }
-              }],
-              xAxes: [{
-                ticks: {
-                  autoSkip: false
-                }
-              }]
+              {
+                label: 'Unique',
+                backgroundColor: 'rgb(45, 126, 201)',
+                borderColor: 'rgb(45, 126, 201)',
+                data: data.unique_ads,
+              },
+
+              ]
+          },
+          options: {
+              scaleShowValues: true,
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }],
+                xAxes: [{
+                  ticks: {
+                    autoSkip: false
+                  }
+                }]
+              }
             }
-          }
+      });
 
-    });
+      var ctx2 = document.getElementById("total").getContext('2d');
+      var myChart2 = new Chart(ctx2, {
+          type: 'bar',
+          data: {
+              labels: labels,
+              datasets: [
 
-    var ctx2 = document.getElementById("total").getContext('2d');
-    var myChart2 = new Chart(ctx2, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-            // {
-            //   label: 'Total # of Unique Videos',
-            //   backgroundColor: 'rgb(255, 99, 132)',
-            //   borderColor: 'rgb(255, 99, 132)',
-            //   data: data.unique_videos,
-            // },
-            // {
-            //   label: 'Watched As Ad',
-            //   backgroundColor: 'rgb(45, 126, 201)',
-            //   borderColor: 'rgb(45, 126, 201)',
-            //   data: data.watched_as_ad,
-            // },
-            {
-              label: 'total',
-              backgroundColor: 'rgb(45,201,139)',
-              borderColor: 'rgb(45,201,139)',
-              data: data.watched_as_video,
+              {
+                label: 'total',
+                backgroundColor: 'rgb(45,201,139)',
+                borderColor: 'rgb(45,201,139)',
+                data: data.total_ads,
+              }
+              ]
+          },
+          options: {
+              scaleShowValues: true,
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }],
+                xAxes: [{
+                  ticks: {
+                    autoSkip: false
+                  }
+                }]
+              }
             }
-            ]
-        },
+      });
 
-        options: {
-            scaleShowValues: true,
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                }
-              }],
-              xAxes: [{
-                ticks: {
-                  autoSkip: false
-                }
-              }]
+      var ctx3 = document.getElementById("ratio").getContext('2d');
+      var myChart3 = new Chart(ctx3, {
+          type: 'bar',
+          data: {
+              labels: labels,
+              datasets: [
+              {
+                label: 'Ratio',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: data.ratio,
+              },
+
+              ]
+          },
+
+          options: {
+              scaleShowValues: true,
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }],
+                xAxes: [{
+                  ticks: {
+                    autoSkip: false
+                  }
+                }]
+              }
             }
-          }
 
-    });
+      });
 
-    var ctx3 = document.getElementById("ratio").getContext('2d');
-    var myChart3 = new Chart(ctx3, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-            {
-              label: 'Ratio',
-              backgroundColor: 'rgb(255, 99, 132)',
-              borderColor: 'rgb(255, 99, 132)',
-              data: data.unique_videos,
-            },
-            // {
-            //   label: 'Watched As Ad',
-            //   backgroundColor: 'rgb(45, 126, 201)',
-            //   borderColor: 'rgb(45, 126, 201)',
-            //   data: data.watched_as_ad,
-            // },
-            // {
-            //   label: 'Watched As Video',
-            //   backgroundColor: 'rgb(45,201,139)',
-            //   borderColor: 'rgb(45,201,139)',
-            //   data: data.watched_as_video,
-            // }
-            ]
-        },
+  }
 
-        options: {
-            scaleShowValues: true,
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                }
-              }],
-              xAxes: [{
-                ticks: {
-                  autoSkip: false
-                }
-              }]
-            }
-          }
-
-    });
-
-}
-
-  //   window.onload = () => {
-  //     const ctx4 = document.getElementById("canvas").getContext("2d");
-  //     var y0 = [];
-  //     var y1 = [];
-  //     for (var i = 0; i < 50; i ++) {
-  //       y0[i] = Math.random();
-  //       y1[i] = Math.random() + 1;
-  //     }
-  //
-  //     var trace1 = {
-  //       y: y0,
-  //       type: 'box'
-  //     };
-  //
-  //     var trace2 = {
-  //       y: y1,
-  //       type: 'box'
-  //     };
-  //
-  //     var data = [trace1, trace2];
-  //
-  //     Plotly.newPlot('myDiv', data);
-  //
-  //   };
-  // },
-  // error: function(error_data){
-  //   console.log("error")
-  //   console.log(error_data)
-  // }
-});
-console.log("I am Here")
+  });
+  console.log("I am Here")
 
 
 
 
 
-{% endblock %}
+  {% endblock %}
+
 </script>
