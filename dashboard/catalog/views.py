@@ -21,6 +21,9 @@ def index(request):
 def chart(request):
     return render(request, 'charts.html')
 
+def viewsbydate(request):
+    return render(request, 'viewsbydate.html')
+
 class CategoryData(APIView):
     authentication_classes = []
     permission_classes = []
@@ -66,5 +69,59 @@ class ByDateData(APIView):
         permission_classes = []
 
         def get(self, request, format=None):
+
+            dates = []
+            views = []
+
+            urlsByDate = []
+            viewsByDate = []
+
+            tempUrlsGroup = []
+            tempViewsGroup = []
+
+            numberOfVids = 0
+
+            for date_data in PolitcalAdDataByDate.objects.all():
+
+
+                #Initialize the lastDate
+                if numberOfVids is 0:
+                    dates.append(date_data.batch_startime)
+                    lastDate = date_data.batch_startime
+
+                #If the date has not changed
+                if lastDate is date_data.batch_startime:
+                    tempUrlsGroup.append(date_data.url)
+                    tempViewsGroup.append(data_data.times_encountered)
+
+                #If the date has changed
+                else:
+                    #push the group of urls and views to lists
+                    urlsByDate.append(tempUrlsGroup)
+                    viewsByDate.append(tempViewsGroup)
+
+                    #Sum up the total views for that date
+                    totalViewsThatDay = 0
+                    for viewCount in tempViewsGroup:
+                        totalViewsThatDay = totalViewsThatDay + viewCount
+                    views.append(totalViewsThatDay)
+
+
+                    #reset the temporary groups
+                    tempUrlsGroup = []
+                    tempViewsGroup = []
+
+                    dates.append(date_data.batch_startime)
+
+
+
+                numberOfVids = numberOfVids + 1
+
+            data = {
+                'dates': dates,
+                'views': views,
+                'urlsByDate': urlsByDate,
+                'viewsByDate': viewsByDate,
+            }
 
             return Response(data)
