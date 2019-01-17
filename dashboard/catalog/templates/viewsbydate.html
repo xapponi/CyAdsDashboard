@@ -7,8 +7,8 @@
 <div class='row'>
     <div class='col-sm-2 text-center'></div>
     <div class='col-sm-8 text-center'>
-      <h1>Unique Ads Per Category</h1>
-      <canvas id="unique"></canvas>
+      <h1>Views By Date</h1>
+      <canvas id="totalViews"></canvas>
     </div>
     <div class='col-sm-2 text-center'></div>
 </div>
@@ -27,6 +27,40 @@
     success: function(data){
 
       console.log(data)
+
+      labels = data.dates
+      var ctx1 = document.getElementById("totalViews").getContext('2d');
+      var myChart1 = new Chart(ctx1, {
+          type: 'bar',
+          data: {
+              labels: labels,
+              datasets: [
+
+              {
+                label: 'Unique',
+                backgroundColor: 'rgb(45, 126, 201)',
+                borderColor: 'rgb(45, 126, 201)',
+                data: data.views,
+              },
+
+              ]
+          },
+          options: {
+              scaleShowValues: true,
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }],
+                xAxes: [{
+                  ticks: {
+                    autoSkip: false
+                  }
+                }]
+              }
+            }
+      });
 
     }
 
