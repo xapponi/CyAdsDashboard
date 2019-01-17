@@ -90,9 +90,9 @@ class ByDateData(APIView):
                     lastDate = date_data.batch_startime
 
                 #If the date has not changed
-                if lastDate is date_data.batch_startime:
+                if str(lastDate) == str(date_data.batch_startime):
                     tempUrlsGroup.append(date_data.url)
-                    tempViewsGroup.append(data_data.times_encountered)
+                    tempViewsGroup.append(date_data.times_encountered)
 
                 #If the date has changed
                 else:
@@ -112,6 +112,8 @@ class ByDateData(APIView):
                     tempViewsGroup = []
 
                     dates.append(date_data.batch_startime)
+
+                    lastDate = date_data.batch_startime
 
 
 
