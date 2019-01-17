@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+<div class='row'>
+    <div class='col-sm-2 text-center'></div>
+    <div class='col-sm-8 text-center'>
+      <h1>Unique Ads Per Category</h1>
+      <canvas id="unique"></canvas>
+    </div>
+    <div class='col-sm-2 text-center'></div>
+</div>
+
+{% endblock content %}
+
+
+<script>
+  {% block jquery %}
+  var endpoint = '/api/videos/viewsbydate/'
+  var defaultData = []
+  var labels = []
+  $.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+
+      console.log(data)
+
+    }
+
+    });
+    console.log("I am Here")
+
+
+
+
+
+    {% endblock %}
+
+  </script>
