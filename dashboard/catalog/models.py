@@ -112,16 +112,11 @@ class CustomVideoGroup(models.Model):
         """String for representing the Model object."""
         return self.title
 
-# class GroupVideo(models.Model):
-#     title = models.CharField(max_length=200)
-#     group = models.ForeignKey('CustomVideoGroup', on_delete=models.SET_NULL, null=True)
-#     video = models.ForeignKey('ProcessorVideo', on_delete=models.SET_NULL, null=True)
-#
-#
-#     def get_absolute_url(self):
-#         """Returns the url to access a particular author instance."""
-#         return reverse('processorvideo-detail', args=[str(self.id)])
-#
-#     def __str__(self):
-#         """String for representing the Model object."""
-#         return self.title
+class PolitcalAdDataByDate(models.Model):
+    url = models.TextField()
+    batch_startime = models.DateField(blank=True, null=True)
+    times_encountered = models.BigIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'politcal_ad_data_by_date'
