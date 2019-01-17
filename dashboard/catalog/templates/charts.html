@@ -29,43 +29,8 @@
     <div class='col-sm-2 text-center'></div>
 </div>
 
-<div class='row'>
-    <div class='col-sm-1'></div>
-    <div class='col-sm-10 text-center'>
-        <h1>Box Plot Test</h1>
-
-        <div id="myDiv">  <canvas id="canvas" width="400" height="400"></canvas></div>
-    </div>
-    <div class='col-sm-1'></div>
-</div>
-
-<div class="row">
-    <div id="container" style="width: 500px; height: 400px;">
-
-    </div>
-</div>
-
 {% endblock content %}
-<script>
-  anychart.onDocumentLoad(function () {
-    // create an instance of a pie chart
-    var chart = anychart.pie();
-    // set the data
-    chart.data([
-      ["Chocolate", 5],
-      ["Rhubarb compote", 2],
-      ["Crêpe Suzette", 2],
-      ["American blueberry", 2],
-      ["Buttermilk", 1]
-    ]);
-    // set chart title
-    chart.title("Top 5 pancake fillings");
-    // set the container element
-    chart.container("container");
-    // initiate chart display
-    chart.draw();
-  });
-</script>
+
 <script>
   {% block jquery %}
   var endpoint = '/api/videos/categories/'
@@ -75,8 +40,11 @@
     method: "GET",
     url: endpoint,
     success: function(data){
+      
       console.log(data)
+
       labels = data.category_names
+
       var ctx1 = document.getElementById("unique").getContext('2d');
       var myChart1 = new Chart(ctx1, {
           type: 'bar',

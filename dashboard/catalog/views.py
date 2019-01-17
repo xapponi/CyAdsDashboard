@@ -52,12 +52,6 @@ class CategoryData(APIView):
                 if 'hows' not in cat['name']:
                     total_category_data[cat['id']] = 0
 
-
-
-
-
-
-
         data = {
             'unique_ads': unique_ads,
             'total_ads': total_ads,
