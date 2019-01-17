@@ -1,20 +1,18 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
-
-<div class='row'>
-    <div class='col-sm-2 text-center'></div>
-    <div class='col-sm-8 text-center'>
-      <h1>Views By Date</h1>
-      <canvas id="totalViews"></canvas>
-    </div>
-    <div class='col-sm-2 text-center'></div>
+<div class='container'>
+  <div class='row'>
+      <div class='col-sm-2 text-center'></div>
+      <div class='col-sm-8 text-center'>
+        <h1>Political Ads: Total Views By Date</h1>
+        <canvas id="totalViews"></canvas>
+      </div>
+      <div class='col-sm-2 text-center'></div>
+  </div>
 </div>
 
 {% endblock content %}
-
 
 <script>
   {% block jquery %}
@@ -35,42 +33,17 @@
           data: {
               labels: labels,
               datasets: [
-
-              {
-                label: 'Unique',
-                backgroundColor: 'rgb(45, 126, 201)',
-                borderColor: 'rgb(45, 126, 201)',
-                data: data.views,
-              },
-
+                {
+                  label: 'Views Per Day',
+                  backgroundColor: 'rgb(45, 126, 201)',
+                  borderColor: 'rgb(45, 126, 201)',
+                  data: data.views,
+                }
               ]
-          },
-          options: {
-              scaleShowValues: true,
-              scales: {
-                yAxes: [{
-                  ticks: {
-                    beginAtZero: true
-                  }
-                }],
-                xAxes: [{
-                  ticks: {
-                    autoSkip: false
-                  }
-                }]
-              }
-            }
+          }
       });
-
     }
-
-    });
-    console.log("I am Here")
-
-
-
-
-
-    {% endblock %}
-
+  });
+  console.log("I am Here")
+  {% endblock %}
   </script>
