@@ -86,53 +86,56 @@ class ByDateData(APIView):
 
             for date_data in PolitcalAdDataByDate.objects.all():
 
-                all_data[date_data.batch_startime] += date_data.times_encountered
+                try:
+                    all_data[str(date_data.batch_startime)] += date_data.times_encountered
+                except:
+                    all_data[str(date_data.batch_startime)] = date_data.times_encountered
 
-            print(all_data)
-            for key, value in all_data.items():
-                myjsonlist.append([key, value])
-                #
-                # #Initialize the lastDate
-                # if numberOfVids is 0:
-                #     dates.append(date_data.batch_startime)
-                #     lastDate = date_data.batch_startime
-                #
-                # #If the date has not changed
-                # elif str(lastDate) == str(date_data.batch_startime):
-                #     tempUrlsGroup.append(date_data.url)
-                #     tempViewsGroup.append(date_data.times_encountered)
-                #
-                # #If the date has changed
-                # else:
-                #     #push the group of urls and views to lists
-                #     urlsByDate.append(tempUrlsGroup)
-                #     viewsByDate.append(tempViewsGroup)
-                #
-                #     #Sum up the total views for that date
-                #     totalViewsThatDay = 0
-                #     for viewCount in tempViewsGroup:
-                #         totalViewsThatDay = totalViewsThatDay + viewCount
-                #     views.append(totalViewsThatDay)
-                #
-                #
-                #     #reset the temporary groups
-                #     tempUrlsGroup = []
-                #     tempViewsGroup = []
-                #
-                #     dates.append(date_data.batch_startime)
-                #
-                #     lastDate = date_data.batch_startime
-                #
-                #
-                #
-                # numberOfVids = numberOfVids + 1
+
+            # for key, value in all_data.items():
+            #     myjsonlist.append([key, value])
+
+                #Initialize the lastDate
+                if numberOfVids is 0:
+                    dates.append(date_data.batch_startime)
+                    lastDate = date_data.batch_startime
+
+                #If the date has not changed
+                elif str(lastDate) == str(date_data.batch_startime):
+                    tempUrlsGroup.append(date_data.url)
+                    tempViewsGroup.append(date_data.times_encountered)
+
+                #If the date has changed
+                else:
+                    #push the group of urls and views to lists
+                    urlsByDate.append(tempUrlsGroup)
+                    viewsByDate.append(tempViewsGroup)
+
+                    #Sum up the total views for that date
+                    totalViewsThatDay = 0
+                    for viewCount in tempViewsGroup:
+                        totalViewsThatDay = totalViewsThatDay + viewCount
+                    views.append(totalViewsThatDay)
+
+
+                    #reset the temporary groups
+                    tempUrlsGroup = []
+                    tempViewsGroup = []
+
+                    dates.append(date_data.batch_startime)
+
+                    lastDate = date_data.batch_startime
+
+
+
+                numberOfVids = numberOfVids + 1
 
             data = {
-                'myjsonlist': myjsonlist,
+                'all_data': all_data,
                 'dates': dates,
                 'views': views,
                 'urlsByDate': urlsByDate,
                 'viewsByDate': viewsByDate,
             }
 
-            return Response(all_data)
+            return Response(data)
