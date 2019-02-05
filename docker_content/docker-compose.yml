@@ -1,1 +1,9 @@
 # docker-compose.yml file
+version: '3.2'
+
+services:
+  es:
+
+  logstash:
+
+  kibana:
