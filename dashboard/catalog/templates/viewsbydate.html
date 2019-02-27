@@ -5,18 +5,33 @@
 <div class='container'>
   <div class="row">
     <div class="col-sm-12 text-center">
-      <h1></h1>
+      <h1>Political Ads: Total View By Date</h1>
     </div>
+
   </div>
   <div class="row" style="height: 900px">
+
     <div id="mycontainer" style="width: 100%; height: 100%"></div>
-    </div>
+  </div>
+
+  <div class='row'>
+      <div class='col-sm-2 text-center'></div>
+      <div class='col-sm-8 text-center'>
+
+        <canvas id="totalViews"></canvas>
+      </div>
+      <div class='col-sm-2 text-center'></div>
   </div>
 </div>
 
 {% endblock content %}
+
 <script>
   {% block jquery %}
+
+
+
+
   var endpoint = '/api/videos/viewsbydate/'
   var defaultData = []
   var labels = []
@@ -24,31 +39,92 @@
     method: "GET",
     url: endpoint,
     success: function(data){
-      console.log(data);
+
+      console.log(data)
+
+      labels = data.dates
+      var ctx1 = document.getElementById("totalViews").getContext('2d');
+      var myChart1 = new Chart(ctx1, {
+          type: 'bar',
+          data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Views Per Day',
+                  backgroundColor: 'rgb(45, 126, 201)',
+                  borderColor: 'rgb(45, 126, 201)',
+                  data: data.views,
+                }
+              ]
+          }
+      });
+
+
       var table, mapping, chart;
       anychart.onDocumentReady(function () {
+
       table = anychart.data.table();
+
+      otherData = [
+        ['2015-12-25', 512.53],
+        ['2015-12-26', 511.83],
+        ['2015-12-27', 511.22],
+        ['2015-12-28', 510.35],
+        ['2015-12-29', 510.53],
+        ['2015-12-30', 511.43],
+        ['2015-12-31', 511.50],
+        ['2016-01-01', 511.32],
+        ['2016-01-02', 511.70],
+        ['2016-01-03', 512.30],
+        ['2016-01-04', 512.50],
+        ['2016-01-05', 511.53],
+        ['2016-01-06', 511.13],
+        ['2016-01-07', 510.93],
+        ['2016-01-08', 510.88],
+        ['2016-01-09', 509.12],
+        ['2016-01-10', 508.53]
+      ];
+
       var dict = data.all_data;
       var arr = [];
+
       for (var key in dict) {
           if (dict.hasOwnProperty(key)) {
               arr.push( [ key, dict[key] ] );
           }
       }
+
+      console.log('\nOther Data:')
+      console.log(otherData);
+
+      console.log('\nall Data:')
+      console.log(arr);
+
       table.addData(arr);
+
       // mapping the data
+
       mapping = table.mapAs();
       mapping.addField('value', 1);
+
       // defining the chart type
       chart = anychart.stock();
+
       // set the series type
       chart.plot(0).column(mapping).name('Number Of Views');
+
       // setting the chart title
-      chart.title('Political Ads: Total View By Date');
+      chart.title('AnyStock Demo');
+
       // display the chart
       chart.container('mycontainer');
       chart.draw();
       });
+
+
+
+
+
     }
   });
   console.log("I am Here")
